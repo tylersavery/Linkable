@@ -121,6 +121,7 @@ class Linkable extends StatelessWidget {
   }
 
   _launch(String url) async {
+    print(url);
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -161,8 +162,7 @@ class Linkable extends StatelessWidget {
 
   _filterLinks() {
     _links.sort(
-            (Link a, Link b) =>
-            a.regExpMatch.start.compareTo(b.regExpMatch.start));
+        (Link a, Link b) => a.regExpMatch.start.compareTo(b.regExpMatch.start));
 
     List<Link> _filteredLinks = List<Link>();
     if (_links.length > 0) {
