@@ -8,6 +8,7 @@ import 'package:linkable/httpParser.dart';
 import 'package:linkable/link.dart';
 import 'package:linkable/parser.dart';
 import 'package:linkable/telParser.dart';
+import 'package:linkable/usernameParser.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Linkable extends StatelessWidget {
@@ -39,6 +40,8 @@ class Linkable extends StatelessWidget {
 
   final textHeightBehavior;
 
+  final Function onUsernameTap;
+
   List<Parser> _parsers = List<Parser>();
   List<Link> _links = List<Link>();
 
@@ -58,6 +61,7 @@ class Linkable extends StatelessWidget {
     this.strutStyle,
     this.textWidthBasis = TextWidthBasis.parent,
     this.textHeightBehavior,
+    this.onUsernameTap,
   }) : super(key: key);
 
   @override
@@ -116,7 +120,11 @@ class Linkable extends StatelessWidget {
         style: TextStyle(color: linkColor),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            _launch(_getUrl(text, type));
+            if (type == username) {
+              onUsernameTap(text);
+            } else {
+              _launch(_getUrl(text, type));
+            }
           });
   }
 
@@ -147,6 +155,7 @@ class Linkable extends StatelessWidget {
     _parsers.add(EmailParser(text));
     _parsers.add(HttpParser(text));
     _parsers.add(TelParser(text));
+    _parsers.add(UsernameParser(text));
   }
 
   _parseLinks() {
