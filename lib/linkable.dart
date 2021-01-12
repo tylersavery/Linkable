@@ -121,12 +121,7 @@ class Linkable extends StatelessWidget {
   }
 
   _launch(String url) async {
-    print(url);
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+    launch(url);
   }
 
   _getUrl(String text, String type) {
