@@ -17,6 +17,7 @@ class Linkable extends StatelessWidget {
   final textColor;
 
   final linkColor;
+
   final linkDecoration;
 
   final style;
@@ -42,6 +43,7 @@ class Linkable extends StatelessWidget {
   final textHeightBehavior;
 
   final Function onUsernameTap;
+  final Function onStoryUrlTap;
 
   List<Parser> _parsers = List<Parser>();
   List<Link> _links = List<Link>();
@@ -64,6 +66,7 @@ class Linkable extends StatelessWidget {
     this.textWidthBasis = TextWidthBasis.parent,
     this.textHeightBehavior,
     this.onUsernameTap,
+    this.onStoryUrlTap,
   }) : super(key: key);
 
   @override
@@ -122,10 +125,17 @@ class Linkable extends StatelessWidget {
         style: TextStyle(color: linkColor, decoration: linkDecoration),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
-            if (type == username) {
+            if (type == username && onUsernameTap != null) {
               onUsernameTap(text);
             } else {
-              _launch(_getUrl(text, type));
+              if (text.contains("https://storyplace.com") &&
+                  onStoryUrlTap != null) {
+                List<String> parts = text.split('/');
+                String uuid = parts[parts.length - 1];
+                onStoryUrlTap(uuid);
+              } else {
+                _launch(_getUrl(text, type));
+              }
             }
           });
   }
