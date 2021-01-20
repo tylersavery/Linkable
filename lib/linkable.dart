@@ -17,6 +17,7 @@ class Linkable extends StatelessWidget {
   final textColor;
 
   final linkColor;
+  final linkDecoration;
 
   final style;
 
@@ -50,6 +51,7 @@ class Linkable extends StatelessWidget {
     @required this.text,
     this.textColor = Colors.black,
     this.linkColor = Colors.blue,
+    this.linkDecoration = TextDecoration.none,
     this.style,
     this.textAlign = TextAlign.start,
     this.textDirection,
@@ -117,7 +119,7 @@ class Linkable extends StatelessWidget {
   _link(String text, String type) {
     return TextSpan(
         text: text,
-        style: TextStyle(color: linkColor),
+        style: TextStyle(color: linkColor, decoration: linkDecoration),
         recognizer: TapGestureRecognizer()
           ..onTap = () {
             if (type == username) {
